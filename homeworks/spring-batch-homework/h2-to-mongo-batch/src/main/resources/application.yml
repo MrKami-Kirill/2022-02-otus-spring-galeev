@@ -1,0 +1,48 @@
+server:
+  port: 8080
+
+spring:
+  main:
+    allow-circular-references: true
+
+  banner:
+    location: classpath:banner.txt
+
+  batch:
+    job:
+      enabled: false
+
+  datasource:
+    url: jdbc:h2:mem:library
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  sql:
+    init:
+      mode: always
+
+  h2:
+    console:
+      enabled: true
+
+
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  mongodb:
+    embedded:
+      version: 5.0.6
+
+  data:
+    mongodb:
+      host: localhost
+      port: 0
+      database: library
+
+logging:
+  level:
+    ROOT: INFO

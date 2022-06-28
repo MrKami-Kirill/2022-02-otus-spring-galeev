@@ -28,11 +28,6 @@ public class IntegrationConfig {
         return MessageChannels.publishSubscribe().get();
     }
 
-    @Bean
-    public PublishSubscribeChannel outChannel() {
-        return MessageChannels.publishSubscribe().get();
-    }
-
     @Bean(name = PollerMetadata.DEFAULT_POLLER)
     public PollerMetadata poller() {
         return Pollers.fixedRate(100).maxMessagesPerPoll(2).get();
@@ -52,8 +47,6 @@ public class IntegrationConfig {
                                 )
                                 .subFlowMapping(false, sf -> sf
                                         .handle(butterflyService, CHECK_ALIVE_AND_IN_COCOON_METHOD_NAME)
-                                        .channel(outChannel())
-
                                 )
                 );
     }

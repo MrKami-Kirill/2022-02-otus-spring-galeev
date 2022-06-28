@@ -10,6 +10,6 @@ import java.util.Collection;
 @MessagingGateway
 public interface Transformation {
 
-    @Gateway(requestChannel = "transformationFlow.input")
+    @Gateway(requestChannel = "transformationFlow.input", replyChannel = "butterfliesChannel", replyTimeout = 30000L)
     Collection<Butterfly> transformationToButterfly(Collection<Caterpillar> caterpillars);
 }

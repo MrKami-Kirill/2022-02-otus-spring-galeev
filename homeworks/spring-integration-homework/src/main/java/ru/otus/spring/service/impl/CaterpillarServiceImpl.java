@@ -36,7 +36,9 @@ public class CaterpillarServiceImpl implements CaterpillarService {
                 System.out.println("Новые гусеницы в кол-ве " + caterpillars.size() + ": " +
                         caterpillars);
                 Collection<Butterfly> butterflies = transformation.transformationToButterfly(caterpillars);
-                System.out.println("Новые бабочки в кол-ве " + butterflies.size() + ": " + butterflies);
+                if (butterflies != null) {
+                    System.out.println("Новые бабочки в кол-ве " + butterflies.size() + ": " + butterflies);
+                }
             });
         }
     }

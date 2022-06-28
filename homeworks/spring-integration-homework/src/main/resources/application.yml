@@ -1,0 +1,8 @@
+spring:
+
+  banner:
+    location: classpath:banner.txt
+
+logging:
+  level:
+    ROOT: INFO

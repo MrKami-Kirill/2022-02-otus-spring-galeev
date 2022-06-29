@@ -1,7 +1,6 @@
 package ru.otus.spring.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.concurrent.ConcurrentTaskExecutor;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.integration.Transformation;
@@ -19,7 +18,6 @@ public class TransformationServiceImpl implements TransformationService {
     private final CaterpillarService caterpillarService;
     private final ConcurrentTaskExecutor executor = new ConcurrentTaskExecutor(Executors.newFixedThreadPool(10));
 
-    @Async
     @Override
     public void startTransformation() {
         executor.execute(() -> transformation.transformationToButterfly(caterpillarService.findAll()));

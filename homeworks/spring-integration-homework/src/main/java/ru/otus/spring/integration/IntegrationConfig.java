@@ -38,7 +38,7 @@ public class IntegrationConfig {
         return f -> f
                 .split()
                 .<Caterpillar, Boolean>route(
-                        c -> c.isAlive() && c.isInCocoon(),
+                        c -> c.isAlive() && c.isInCocoon() && !c.isTransform(),
                         mapping -> mapping
                                 .subFlowMapping(true, sf -> sf
                                         .handle(butterflyService, TRANSFORMATION_METHOD_NAME)

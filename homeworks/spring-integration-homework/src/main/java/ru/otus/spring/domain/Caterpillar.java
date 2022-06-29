@@ -34,7 +34,8 @@ public class Caterpillar {
     }
 
     public static Caterpillar newCaterpillar(String name) {
-        return new Caterpillar(name, Size.randomSize(), Color.randomColor(), Math.random() < 0.5, Math.random() < 0.5);
+        Random random = new Random();
+        return new Caterpillar(name, Size.randomSize(), Color.randomColor(), random.nextBoolean(), random.nextBoolean());
     }
 
     public static Caterpillar newRandomValidCaterpillar() {
@@ -42,13 +43,13 @@ public class Caterpillar {
     }
 
     public static Caterpillar newRandomCaterpillar() {
-        return new Caterpillar(getRandomName(), Size.randomSize(), Color.randomColor(), Math.random() < 0.5, Math.random() < 0.5);
+        Random random = new Random();
+        return new Caterpillar(getRandomName(), Size.randomSize(), Color.randomColor(), random.nextBoolean(), random.nextBoolean());
     }
 
     private static String getRandomName() {
         int length = 16;
-        Random r = new Random();
-        return r.ints(48, 122)
+        return new Random().ints(48, 122)
                 .filter(i -> (i < 57 || i > 65) && (i < 90 || i > 97))
                 .mapToObj(i -> (char) i)
                 .limit(length)

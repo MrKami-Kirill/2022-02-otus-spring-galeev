@@ -1,0 +1,28 @@
+spring:
+  main:
+    allow-circular-references: true
+
+  banner:
+    location: classpath:banner.txt
+
+  mongodb:
+    embedded:
+      version: 5.0.6
+
+    data:
+      mongodb:
+        host: localhost
+        port: 0
+        database: insects
+
+mongock:
+  mongo-db:
+    write-concern:
+      journal: false
+  runner-type: InitializingBean
+  change-logs-scan-package:
+    - ru.otus.spring.changelog
+
+logging:
+  level:
+    ROOT: INFO

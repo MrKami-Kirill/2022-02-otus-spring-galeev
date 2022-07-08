@@ -35,6 +35,13 @@ class BookControllerTest {
     @MockBean
     private BookController bookController;
 
+
+    private static final String API_BOOKS_URL = "/api/books/";
+    private static final String API_BOOKS_ID_URL = "/api/books/1";
+    private static final String API_BOOKS_ID_COMMENTS_URL = "/api/books/1/comments";
+    private static final String API_BOOKS_ID_AUTHORS_URL = "/api/books/1/authors";
+    private static final String API_BOOKS_ID_GENRES_URL = "/api/books/1/genres";
+
     @BeforeEach
     void init() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
@@ -48,25 +55,24 @@ class BookControllerTest {
     )
     @Test
     void testAuthenticatedRequestsForAdminRole() throws Exception {
-        mockMvc.perform(get("/api/books/"))
+        mockMvc.perform(get(API_BOOKS_URL))
                 .andExpect(status().isOk());
-        mockMvc.perform(get("/api/books/1"))
+        mockMvc.perform(get(API_BOOKS_ID_URL))
                 .andExpect(status().isOk());
-        mockMvc.perform(get("/api/books/1/comments"))
+        mockMvc.perform(get(API_BOOKS_ID_COMMENTS_URL))
                 .andExpect(status().isOk());
-        mockMvc.perform(get("/api/books/1/authors"))
+        mockMvc.perform(get(API_BOOKS_ID_AUTHORS_URL))
                 .andExpect(status().isOk());
-        mockMvc.perform(get("/api/books/1/genres"))
+        mockMvc.perform(get(API_BOOKS_ID_GENRES_URL))
                 .andExpect(status().isOk());
-        mockMvc.perform(post("/api/books/")
+        mockMvc.perform(post(API_BOOKS_URL)
                         .content("{\"name\": \"testBook\",\"commentText\": \"testCommentText\", \"authorName\": \"testAuthorName\", \"genreName\": \"testGenreName\"}").contentType(APPLICATION_JSON))
                 .andExpect(status().isOk());
-        mockMvc.perform(put("/api/books/1")
+        mockMvc.perform(put(API_BOOKS_ID_URL)
                         .content("{\"name\": \"testBookName\"}").contentType(APPLICATION_JSON))
                 .andExpect(status().isOk());
-        mockMvc.perform(delete("/api/books/1"))
+        mockMvc.perform(delete(API_BOOKS_ID_URL))
                 .andExpect(status().isOk());
-
     }
 
     @DisplayName("Тестирование запросов для пользователя с ролью USER")
@@ -77,25 +83,24 @@ class BookControllerTest {
     )
     @Test
     void testAuthenticatedRequestsForUserRole() throws Exception {
-        mockMvc.perform(get("/api/books/"))
+        mockMvc.perform(get(API_BOOKS_URL))
                 .andExpect(status().isOk());
-        mockMvc.perform(get("/api/books/1"))
+        mockMvc.perform(get(API_BOOKS_ID_URL))
                 .andExpect(status().isOk());
-        mockMvc.perform(get("/api/books/1/comments"))
+        mockMvc.perform(get(API_BOOKS_ID_COMMENTS_URL))
                 .andExpect(status().isOk());
-        mockMvc.perform(get("/api/books/1/authors"))
+        mockMvc.perform(get(API_BOOKS_ID_AUTHORS_URL))
                 .andExpect(status().isOk());
-        mockMvc.perform(get("/api/books/1/genres"))
+        mockMvc.perform(get(API_BOOKS_ID_GENRES_URL))
                 .andExpect(status().isOk());
-        mockMvc.perform(post("/api/books/")
+        mockMvc.perform(post(API_BOOKS_URL)
                         .content("{\"name\": \"testBook\",\"commentText\": \"testCommentText\", \"authorName\": \"testAuthorName\", \"genreName\": \"testGenreName\"}").contentType(APPLICATION_JSON))
                 .andExpect(status().isForbidden());
-        mockMvc.perform(put("/api/books/1")
+        mockMvc.perform(put(API_BOOKS_ID_URL)
                         .content("{\"name\": \"testBookName\"}").contentType(APPLICATION_JSON))
                 .andExpect(status().isForbidden());
-        mockMvc.perform(delete("/api/books/1"))
+        mockMvc.perform(delete(API_BOOKS_ID_URL))
                 .andExpect(status().isForbidden());
-
     }
 
     @DisplayName("Тестирование запросов для пользователя с ролью GUEST")
@@ -106,24 +111,46 @@ class BookControllerTest {
     )
     @Test
     void testAuthenticatedRequestsForGuestRole() throws Exception {
-        mockMvc.perform(get("/api/books/"))
+        mockMvc.perform(get(API_BOOKS_URL))
                 .andExpect(status().isOk());
-        mockMvc.perform(get("/api/books/1"))
+        mockMvc.perform(get(API_BOOKS_ID_URL))
                 .andExpect(status().isForbidden());
-        mockMvc.perform(get("/api/books/1/comments"))
+        mockMvc.perform(get(API_BOOKS_ID_COMMENTS_URL))
                 .andExpect(status().isForbidden());
-        mockMvc.perform(get("/api/books/1/authors"))
+        mockMvc.perform(get(API_BOOKS_ID_AUTHORS_URL))
                 .andExpect(status().isForbidden());
-        mockMvc.perform(get("/api/books/1/genres"))
+        mockMvc.perform(get(API_BOOKS_ID_GENRES_URL))
                 .andExpect(status().isForbidden());
-        mockMvc.perform(post("/api/books/")
+        mockMvc.perform(post(API_BOOKS_URL)
                         .content("{\"name\": \"testBook\",\"commentText\": \"testCommentText\", \"authorName\": \"testAuthorName\", \"genreName\": \"testGenreName\"}").contentType(APPLICATION_JSON))
                 .andExpect(status().isForbidden());
-        mockMvc.perform(put("/api/books/1")
+        mockMvc.perform(put(API_BOOKS_ID_URL)
                         .content("{\"name\": \"testBookName\"}").contentType(APPLICATION_JSON))
                 .andExpect(status().isForbidden());
-        mockMvc.perform(delete("/api/books/1"))
+        mockMvc.perform(delete(API_BOOKS_ID_URL))
                 .andExpect(status().isForbidden());
+    }
 
+    @DisplayName("Тестирование запросов для пользователя без роли")
+    @Test
+    void testAuthenticatedRequestsWithoutRole() throws Exception {
+        mockMvc.perform(get(API_BOOKS_URL))
+                .andExpect(status().isFound());
+        mockMvc.perform(get(API_BOOKS_ID_URL))
+                .andExpect(status().isFound());
+        mockMvc.perform(get(API_BOOKS_ID_COMMENTS_URL))
+                .andExpect(status().isFound());
+        mockMvc.perform(get(API_BOOKS_ID_AUTHORS_URL))
+                .andExpect(status().isFound());
+        mockMvc.perform(get(API_BOOKS_ID_GENRES_URL))
+                .andExpect(status().isFound());
+        mockMvc.perform(post(API_BOOKS_URL)
+                        .content("{\"name\": \"testBook\",\"commentText\": \"testCommentText\", \"authorName\": \"testAuthorName\", \"genreName\": \"testGenreName\"}").contentType(APPLICATION_JSON))
+                .andExpect(status().isFound());
+        mockMvc.perform(put(API_BOOKS_ID_URL)
+                        .content("{\"name\": \"testBookName\"}").contentType(APPLICATION_JSON))
+                .andExpect(status().isFound());
+        mockMvc.perform(delete(API_BOOKS_ID_URL))
+                .andExpect(status().isFound());
     }
 }

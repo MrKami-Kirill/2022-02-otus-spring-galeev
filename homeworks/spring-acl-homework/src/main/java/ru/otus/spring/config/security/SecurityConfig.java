@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.otus.spring.service.impl.UserDetailsServiceImpl;
@@ -20,10 +21,10 @@ import ru.otus.spring.service.impl.UserDetailsServiceImpl;
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsServiceImpl userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Autowired
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
+    public SecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 

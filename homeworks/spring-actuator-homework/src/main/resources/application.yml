@@ -1,0 +1,43 @@
+spring:
+  banner:
+    location: classpath:banner.txt
+
+  messages:
+    encoding: UTF-8
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+  sql:
+    init:
+      mode: always
+
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+    show-sql: true
+
+  data:
+    rest:
+      basePath: /rest/api
+
+logging:
+  level:
+    ROOT: ERROR
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  info:
+    build:
+      enabled: true
+    env:
+      enabled: true
+    git:
+      mode: "full"

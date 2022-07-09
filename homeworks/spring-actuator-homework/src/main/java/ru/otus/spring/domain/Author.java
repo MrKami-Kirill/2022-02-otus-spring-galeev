@@ -1,31 +1,15 @@
 package ru.otus.spring.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
-
 @Data
-@EqualsAndHashCode(of = "id")
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "author")
 public class Author {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
-    private long id;
-
-    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY)
-    private Set<Book> books = new HashSet<>();
-
-    public Author(String name) {
+    @JsonCreator
+    public Author(@JsonProperty("name") String name) {
         this.name = name;
     }
 }

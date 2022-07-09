@@ -45,11 +45,10 @@
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
     <script>
         $(function () {
-            $.get('/rest/api/books/' + getUrlParameter('id') + '/genres').done(function (response) {
-                response.content.forEach(function (genre) {
+            $.get('/rest/api/books/' + getUrlParameter('id')).done(function (response) {
+                response.genres.forEach(function (genre) {
                     $('tbody').append(`
                     <tr>
-                        <td>${genre.id}</td>
                         <td>${genre.name}</td>
                     </tr>
                 `)
@@ -65,7 +64,6 @@
 <table class="genres">
     <thead>
     <tr>
-        <th>Id</th>
         <th th:text="#{genre-name-table-header}">Название</th>
     </tr>
     </thead>

@@ -14,23 +14,28 @@ public class BookPageController {
     }
 
     @GetMapping("/book/comments")
-    public String bookComments(@RequestParam("id") long id, Model model) {
+    public String bookComments(@RequestParam("id") String id, Model model) {
         return "bookComments";
     }
 
     @GetMapping("/book/authors")
-    public String bookAuthors(@RequestParam("id") long id, Model model) {
+    public String bookAuthors(@RequestParam("id") String id, Model model) {
         return "bookAuthors";
     }
 
     @GetMapping("/book/genres")
-    public String bookGenres(@RequestParam("id") long id, Model model) {
+    public String bookGenres(@RequestParam("id") String id, Model model) {
         return "bookGenres";
     }
 
     @GetMapping("/book/edit")
-    public String bookEdit(@RequestParam("id") long id, Model model) {
+    public String bookEdit(@RequestParam("id") String id, Model model) {
         return "editBook";
+    }
+
+    @GetMapping("/book/addNew")
+    public String addNewBook(Model model) {
+        return "addNewBook";
     }
 
     @GetMapping("/book/delete")

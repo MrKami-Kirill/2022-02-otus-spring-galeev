@@ -10,7 +10,7 @@
 
         .books {
             border: 1px solid steelblue;
-            width: 1100px;
+            width: 1400px;
             border-collapse: collapse;
         }
 
@@ -97,10 +97,15 @@
 </head>
 <body>
 <div><button style="float: right" type="submit" onclick="logout()" th:text="#{exit-button}">Выход</button></div>
+<div><a href="#" th:href="@{/actuator}" th:text="#{actuator-link}">Перейти на страницу Spring Boot Actuator</a></div>
+</br>
 <div><a href="#" th:href="@{/(lang=en)}" th:text="#{en-lang-switch-button-caption}">Language - EN</a></div>
 <div><a href="#" th:href="@{/(lang=ru)}" th:text="#{ru-lang-switch-button-caption}">Language - RU</a></div>
 
 <h3 th:text="#{books-table-header}">Книги:</h3>
+<h4>
+    <a href="/book/addNew" th:text="#{add-new-book-link}">Добавить новую книгу</a>
+</h4>
 <table class="books">
     <thead>
     <tr>

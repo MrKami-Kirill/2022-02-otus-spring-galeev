@@ -45,11 +45,10 @@
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
     <script>
         $(function () {
-            $.get('/rest/api/books/' + getUrlParameter('id') + '/comments').done(function (response) {
-                response.content.forEach(function (comment) {
+            $.get('/rest/api/books/' + getUrlParameter('id')).done(function (response) {
+                response.comments.forEach(function (comment) {
                     $('tbody').append(`
                     <tr>
-                        <td>${comment.id}</td>
                         <td>${comment.text}</td>
                     </tr>
                 `)
@@ -65,7 +64,6 @@
 <table class="comments">
     <thead>
     <tr>
-        <th>Id</th>
         <th th:text="#{comment-text-table-header}">Текст</th>
     </tr>
     </thead>

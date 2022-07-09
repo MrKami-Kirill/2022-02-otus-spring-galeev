@@ -4,44 +4,65 @@ import lombok.val;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import ru.otus.spring.domain.User;
-
-import javax.persistence.TypedQuery;
-import java.util.List;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.test.annotation.DirtiesContext;
+import ru.otus.spring.domain.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Репозиторий на основе Data Jpa для работы с пользователями")
-@DataJpaTest
+@DisplayName("Репозиторий на основе Data Mongo для работы с пользователями")
+@DataMongoTest
 public class UserRepositoryTest {
 
-
-    private final String TEST_USERNAME = "USER";
+    private static final String FIRST_USER_NAME = "USER";
 
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private TestEntityManager em;
-
-    @DisplayName("Должен загружать информацию о нужном пользователе по имени")
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    @DisplayName("Должен сохранять нового пользователя")
     @Test
-    void shouldFindExpectedAuthorByName() {
-        val actualAuthor = userRepository.findByUsername(TEST_USERNAME);
-        val expectedAuthor = findByUsername(TEST_USERNAME);
-        assertThat(actualAuthor).isPresent().get()
-                .usingRecursiveComparison().isEqualTo(expectedAuthor);
+    void shouldSaveNewUser() {
+        final String expectedNewUsername = "TEST";
+        val actualNewUser = userRepository.save(new User(expectedNewUsername, "$2a$12$4JRoWnNV64pNQmcrU.yL3OfUzn.HIVDe2rBMF3/MsjuBE0vSxAiKS", "ROLE_TEST"));
+        val expectedNewUser = userRepository.findByUsername(expectedNewUsername);
+        assertThat(expectedNewUser).isPresent().get()
+                .usingRecursiveComparison().isEqualTo(actualNewUser);
     }
 
-    private User findByUsername(String username) {
-        TypedQuery<User> query = em.getEntityManager().createQuery("select u " +
-                        "from User u " +
-                        "where u.username = :username",
-                User.class);
-        query.setParameter("username", username);
-        List<User> resultList = query.getResultList();
-        return  !resultList.isEmpty() ? resultList.get(0) : null;
+    @DisplayName("Должен загружать информацию о нужном пользователе по id")
+    @Test
+    void shouldFindExpectedUserById() {
+        val actualUser = userRepository.findByUsername(FIRST_USER_NAME);
+        assertThat(actualUser).isPresent();
+        assertThat(userRepository.findById(actualUser.get().getId())).isPresent();
+    }
+
+    @DisplayName("Должен загружать информацию о нужном пользовател по имени")
+    @Test
+    void shouldFindExpectedUserByUsername() {
+        assertThat(userRepository.findByUsername(FIRST_USER_NAME)).isPresent();
+    }
+
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    @DisplayName("Должен удалять пользователя по id")
+    @Test
+    void shouldDeleteUserById() {
+        val deleteUser = userRepository.findByUsername(FIRST_USER_NAME);
+        assertThat(deleteUser).isPresent();
+        userRepository.deleteById(deleteUser.get().getId());
+        val expectedUser = userRepository.findByUsername(FIRST_USER_NAME);
+        assertThat(expectedUser).isEmpty();
+    }
+
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    @DisplayName("Должен удалять пользователя по имени")
+    @Test
+    void shouldDeleteUserByUsername() {
+        val deleteUser = userRepository.findByUsername(FIRST_USER_NAME);
+        assertThat(deleteUser).isPresent();
+        userRepository.deleteByUsername(FIRST_USER_NAME);
+        val expectedUser = userRepository.findByUsername(FIRST_USER_NAME);
+        assertThat(expectedUser).isEmpty();
     }
 }

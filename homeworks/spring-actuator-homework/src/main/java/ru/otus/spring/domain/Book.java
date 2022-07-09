@@ -1,46 +1,31 @@
 package ru.otus.spring.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @EqualsAndHashCode(of = "id")
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "book")
+@Document(collection = "books")
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
-    private long id;
+    private String id;
 
-    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> comments;
 
-    @Fetch(FetchMode.SUBSELECT)
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "book_author_link", joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private List<Author> authors = new ArrayList<>();
+    private List<Author> authors;
 
-    @Fetch(FetchMode.SUBSELECT)
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "book_genre_link", joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    private List<Genre> genres = new ArrayList<>();
+    private List<Genre> genres;
 
-    public Book(String name, List<Comment> comments, List<Author> authors, List<Genre> genres) {
+    @JsonCreator
+    public Book(@JsonProperty("name") String name, @JsonProperty("comments") List<Comment> comments, @JsonProperty("authors") List<Author> authors, @JsonProperty("genres") List<Genre> genres) {
         this.name = name;
         this.comments = comments;
         this.authors = authors;

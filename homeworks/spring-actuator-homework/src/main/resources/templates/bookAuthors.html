@@ -45,11 +45,10 @@
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
     <script>
         $(function () {
-            $.get('/rest/api/books/' + getUrlParameter('id') + '/authors').done(function (response) {
-                response.content.forEach(function (author) {
+            $.get('/rest/api/books/' + getUrlParameter('id')).done(function (response) {
+                response.authors.forEach(function (author) {
                     $('tbody').append(`
                     <tr>
-                        <td>${author.id}</td>
                         <td>${author.name}</td>
                     </tr>
                 `)
@@ -65,7 +64,6 @@
 <table class="authors">
     <thead>
     <tr>
-        <th>Id</th>
         <th th:text="#{author-name-table-header}">Имя</th>
     </tr>
     </thead>

@@ -1,34 +1,16 @@
 package ru.otus.spring.domain;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @Data
-@EqualsAndHashCode(of = "id")
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "comment")
 public class Comment {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
-    private long id;
-
-    @Column(name = "text", nullable = false)
     private String text;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
-    private Book book;
-
-    public Comment(String text, Book book) {
+    @JsonCreator
+    public Comment(@JsonProperty("text") String text) {
         this.text = text;
-        this.book = book;
     }
 }

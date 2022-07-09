@@ -14,9 +14,6 @@ public class RestConfiguration implements RepositoryRestConfigurer {
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
         config.exposeIdsFor(User.class);
         config.exposeIdsFor(Book.class);
-        config.exposeIdsFor(Comment.class);
-        config.exposeIdsFor(Author.class);
-        config.exposeIdsFor(Genre.class);
         config.setDefaultMediaType(MediaType.APPLICATION_JSON);
         config.useHalAsDefaultJsonMediaType(false);
         config.setDefaultPageSize(100);

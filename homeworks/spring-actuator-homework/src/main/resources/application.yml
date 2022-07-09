@@ -23,21 +23,25 @@ mongock:
   change-logs-scan-package:
     - ru.otus.spring.mongock.changelog
 
-
 logging:
   file:
     name: library_log.log
-
 
 management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include:
+          - health
+          - metrics
+          - logfile
   endpoint:
     health:
+      enabled: true
       show-details: always
     metrics:
+      enabled: true
+    logfile:
       enabled: true
     prometheus:
       enabled: true

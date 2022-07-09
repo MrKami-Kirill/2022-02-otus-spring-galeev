@@ -18,8 +18,8 @@ public class LibraryHealthIndicator implements HealthIndicator {
     @Override
     public Health health() {
         try {
-            List<Book> books = bookRepository.findAll();
-            if (books.isEmpty()) {
+            long count = bookRepository.count();
+            if (count == 0) {
                 return Health.up().withDetail("No books in library!", 0).build();
             }
 

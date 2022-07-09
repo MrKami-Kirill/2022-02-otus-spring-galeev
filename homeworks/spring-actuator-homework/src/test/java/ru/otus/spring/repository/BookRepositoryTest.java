@@ -14,6 +14,7 @@ import ru.otus.spring.domain.Genre;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Репозиторий на основе Data Mongo для работы с книгами")
 @DataMongoTest
@@ -81,5 +82,12 @@ class BookRepositoryTest {
         bookRepository.deleteByName(FIRST_BOOK_NAME);
         val expectedBook = bookRepository.findByName(FIRST_BOOK_NAME);
         assertThat(expectedBook).isEmpty();
+    }
+
+    @DisplayName("Должен получать список всех книг")
+    @Test
+    void shouldGetCountAllBooks() {
+        val count = bookRepository.count();
+        assertEquals(count, EXPECTED_NUMBER_OF_BOOKS);
     }
 }

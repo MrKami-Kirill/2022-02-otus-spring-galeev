@@ -1,0 +1,55 @@
+spring:
+  banner:
+    location: classpath:banner.txt
+
+  messages:
+    encoding: UTF-8
+
+  data:
+    mongodb:
+#      host: localhost
+#      port: 27017
+      database: library
+    rest:
+      basePath: /rest/api
+  mongodb:
+    embedded:
+      version: 5.0.6
+
+mongock:
+  mongo-db:
+    write-concern:
+      journal: false
+  runner-type: InitializingBean
+  change-logs-scan-package:
+    - ru.otus.spring.mongock.changelog
+
+logging:
+  file:
+    name: library_log.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - metrics
+          - logfile
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    metrics:
+      enabled: true
+    logfile:
+      enabled: true
+    prometheus:
+      enabled: true
+  info:
+    build:
+      enabled: true
+    env:
+      enabled: true
+    git:
+      mode: "full"

@@ -99,7 +99,7 @@
 <div><button style="float: right" type="submit" onclick="logout()" th:text="#{exit-button}">Выход</button></div>
 <div><a href="#" th:href="@{/actuator}" th:text="#{actuator-link}">Перейти на страницу Spring Boot Actuator</a></div>
 </br>
-<div><a href="#" th:href="@{/hystrix/monitor?stream=http%3A%2F%2Flocalhost%3A8080%2Factuator%2Fhystrix.stream}">Hystrix Dashboard</a></div>
+<div><a href="#" th:href="@{/hystrix/monitor?stream=http://localhost:8080/actuator/hystrix.stream}">Hystrix Dashboard</a></div>
 </br>
 <div><a href="#" th:href="@{/(lang=en)}" th:text="#{en-lang-switch-button-caption}">Language - EN</a></div>
 <div><a href="#" th:href="@{/(lang=ru)}" th:text="#{ru-lang-switch-button-caption}">Language - RU</a></div>

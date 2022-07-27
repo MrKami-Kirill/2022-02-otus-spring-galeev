@@ -1,0 +1,65 @@
+
+spring:
+  application:
+    name: library
+  banner:
+    location: classpath:banner.txt
+
+  messages:
+    encoding: UTF-8
+
+  data:
+    mongodb:
+#      host: localhost
+#      port: 27017
+      database: library
+  mongodb:
+    embedded:
+      version: 5.0.6
+
+mongock:
+  mongo-db:
+    write-concern:
+      journal: false
+  runner-type: InitializingBean
+  change-logs-scan-package:
+    - ru.otus.spring.mongock.changelog
+
+logging:
+  file:
+    name: library_log.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - metrics
+          - logfile
+          - hystrix.stream
+          - prometheus
+      base-path: /actuator
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    metrics:
+      enabled: true
+    logfile:
+      enabled: true
+    prometheus:
+      enabled: true
+    hystrix:
+      stream:
+        enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: '*'
+
+
